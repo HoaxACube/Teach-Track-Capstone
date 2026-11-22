@@ -1,0 +1,309 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}TeachTrack{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/teachtrack.css' %}">
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <aside class="sidebar" id="sidebar">
+
+      <a class="brand" href="{% url 'dashboard' %}" aria-label="TeachTrack home">
+        <span class="brand-mark">T</span>
+
+        <span class="brand-copy">
+          <strong>teachtrack</strong>
+          <small>ACADEMIC MANAGEMENT</small>
+        </span>
+      </a>
+
+
+      <div class="side-label">WORKSPACE</div>
+
+
+      <nav class="side-nav" aria-label="Main navigation">
+
+        <a
+          class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+          href="{% url 'dashboard' %}"
+          data-page="Dashboard"
+        >
+          <span class="nav-icon">▦</span>
+          Dashboard
+        </a>
+
+
+        <a
+          class="nav-link {% if request.resolver_match.url_name == 'subjects' %}active{% endif %}"
+          href="{% url 'subjects' %}"
+          data-page="My Subjects"
+        >
+          <span class="nav-icon">▤</span>
+          My Subjects
+        </a>
+
+
+        <a
+          class="nav-link {% if request.resolver_match.url_name == 'lesson_plans' %}active{% endif %}"
+          href="{% url 'lesson_plans' %}"
+          data-page="Lesson Plans"
+        >
+          <span class="nav-icon">▧</span>
+          Lesson Plans
+        </a>
+
+
+        <a
+          class="nav-link {% if request.resolver_match.url_name == 'students' %}active{% endif %}"
+          href="{% url 'students' %}"
+          data-page="Student Records"
+        >
+          <span class="nav-icon">♙</span>
+          Student Records
+        </a>
+
+
+        <a
+          class="nav-link {% if request.resolver_match.url_name == 'grades' %}active{% endif %}"
+          href="{% url 'grades' %}"
+          data-page="Grades"
+        >
+          <span class="nav-icon">▣</span>
+          Grades
+        </a>
+
+
+        <a
+          class="nav-link {% if request.resolver_match.url_name == 'attendance' %}active{% endif %}"
+          href="{% url 'attendance' %}"
+          data-page="Attendance"
+        >
+          <span class="nav-icon">✓</span>
+          Attendance
+        </a>
+
+      </nav>
+
+
+      <div class="sidebar-bottom">
+
+        <div class="side-label">PREFERENCES</div>
+
+
+        <a
+          class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}"
+          href="{% url 'settings' %}"
+          data-page="Settings"
+        >
+          <span class="nav-icon">⚙</span>
+          Settings
+        </a>
+
+
+        <div class="help-card">
+          <div class="help-icon">✦</div>
+
+          <strong>Need a hand?</strong>
+
+          <p>
+            Find tips to make your workflow easier.
+          </p>
+
+          <a href="#help" data-toast="Help center coming soon">
+            Visit help center ↗
+          </a>
+        </div>
+
+
+        <div class="profile">
+
+          <div class="avatar">
+            {% if request.user.is_authenticated %}
+              {{ request.user.first_name|first|default:"T" }}{{ request.user.last_name|first|default:"T" }}
+            {% else %}
+              TT
+            {% endif %}
+          </div>
+
+          <div class="profile-info">
+
+            {% if request.user.is_authenticated %}
+              <strong>
+                {{ request.user.get_full_name }}
+              </strong>
+            {% else %}
+              <strong>Faculty</strong>
+            {% endif %}
+
+            <small>Faculty account</small>
+
+          </div>
+
+          <button
+            class="icon-button"
+            id="profileMenu"
+            aria-label="Profile menu"
+          >
+            ···
+          </button>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+      <header class="topbar">
+
+        <button
+          class="mobile-menu icon-button"
+          id="menuToggle"
+          aria-label="Open navigation"
+        >
+          ☰
+        </button>
+
+
+        <div class="breadcrumb">
+          Workspace
+          <span>/</span>
+          <strong>
+            {% block page_name %}Dashboard{% endblock %}
+          </strong>
+        </div>
+
+
+        <div class="top-actions">
+
+          <span class="today-pill">
+            <span class="live-dot"></span>
+            Academic Management
+          </span>
+
+          <button
+            class="icon-button notification-button"
+            aria-label="Notifications"
+            id="notifications"
+          >
+            ♧<i></i>
+          </button>
+
+          <div class="top-avatar">
+            {% if request.user.is_authenticated %}
+              {{ request.user.first_name|first|default:"T" }}{{ request.user.last_name|first|default:"T" }}
+            {% else %}
+              TT
+            {% endif %}
+          </div>
+
+        </div>
+
+      </header>
+
+
+      {% block content %}
+      {% endblock %}
+
+    </main>
+
+  </div>
+
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+
+    <section
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+
+      <div class="modal-head">
+
+        <div>
+          <p class="eyebrow">TEACHTRACK WORKSPACE</p>
+          <h2 id="modalTitle">Create new item</h2>
+        </div>
+
+        <button
+          class="icon-button"
+          id="closeModal"
+          aria-label="Close dialog"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form id="quickForm">
+
+        <label for="itemName">Name</label>
+
+        <input
+          id="itemName"
+          name="itemName"
+          placeholder="Enter a title..."
+          required
+        >
+
+
+        <label for="itemDetails">Details</label>
+
+        <textarea
+          id="itemDetails"
+          name="itemDetails"
+          rows="3"
+          placeholder="Add a short description (optional)"
+        ></textarea>
+
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="button button-light"
+            id="cancelModal"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="button button-dark"
+          >
+            Save item
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </div>
+
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="{% static 'js/teachtrack.js' %}"></script>
+
+</body>
+</html>

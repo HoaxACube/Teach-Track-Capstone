@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+
+{% block title %}
+TeachTrack | Dashboard
+{% endblock %}
+
+{% block page_name %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<section class="welcome-row">
+
+  <div>
+
+    <p class="eyebrow" id="todayDate"></p>
+
+    {% if request.user.is_authenticated %}
+      <h1>
+        Good morning, {{ request.user.first_name }}
+        <span class="wave">✦</span>
+      </h1>
+    {% else %}
+      <h1>
+        Welcome to TeachTrack
+        <span class="wave">✦</span>
+      </h1>
+    {% endif %}
+
+    <p class="muted">
+      Here's what's happening with your classes today.
+    </p>
+
+  </div>
+
+
+  <button class="button button-dark" data-modal="quickAdd">
+    <span>＋</span>
+    Quick create
+  </button>
+
+</section>
+
+
+<section class="stats-grid" aria-label="Academic overview">
+
+  <article class="stat-card stat-dark">
+
+    <div class="stat-top">
+      <span>Sections need attendance</span>
+      <span class="stat-icon">◷</span>
+    </div>
+
+    <div class="stat-value">00</div>
+
+    <div class="stat-foot">
+      <span class="stat-dot pale"></span>
+      No records yet
+    </div>
+
+  </article>
+
+
+  <article class="stat-card">
+
+    <div class="stat-top">
+      <span>Quizzes ungraded</span>
+      <span class="stat-icon">▤</span>
+    </div>
+
+    <div class="stat-value">00</div>
+
+    <div class="stat-foot">
+      <span class="stat-dot amber"></span>
+      No records yet
+    </div>
+
+  </article>
+
+
+  <article class="stat-card">
+
+    <div class="stat-top">
+      <span>Lesson plans due</span>
+      <span class="stat-icon">▧</span>
+    </div>
+
+    <div class="stat-value">00</div>
+
+    <div class="stat-foot">
+      <span class="stat-dot green"></span>
+      No lesson plans yet
+    </div>
+
+  </article>
+
+
+  <article class="stat-card">
+
+    <div class="stat-top">
+      <span>Active students</span>
+      <span class="stat-icon">♙</span>
+    </div>
+
+    <div class="stat-value">00</div>
+
+    <div class="stat-foot">
+      <span class="stat-dot teal"></span>
+      No students yet
+    </div>
+
+  </article>
+
+</section>
+
+
+<section class="dashboard-grid">
+
+  <article class="panel schedule-panel">
+
+    <div class="panel-heading">
+
+      <div>
+        <p class="eyebrow">YOUR SCHEDULE</p>
+        <h2>Today's classes</h2>
+      </div>
+
+      <button class="text-button">
+        View calendar ↗
+      </button>
+
+    </div>
+
+
+    <div class="empty-state">
+
+      <h3>No classes scheduled</h3>
+
+      <p>
+        Your classes will appear here once you add your subjects and sections.
+      </p>
+
+    </div>
+
+  </article>
+
+
+  <article class="panel actions-panel">
+
+    <div class="panel-heading">
+
+      <div>
+        <p class="eyebrow">SHORTCUTS</p>
+        <h2>Quick actions</h2>
+      </div>
+
+    </div>
+
+
+    <div class="action-grid">
+
+      <button class="action-tile" data-modal="lessonModal">
+
+        <span class="action-symbol">＋</span>
+
+        <span>
+          <strong>Create lesson plan</strong>
+          <small>Prepare your next class</small>
+        </span>
+
+        <b>↗</b>
+
+      </button>
+
+
+      <button class="action-tile" data-modal="assessmentModal">
+
+        <span class="action-symbol">＋</span>
+
+        <span>
+          <strong>Create assessment</strong>
+          <small>Build a quiz or activity</small>
+        </span>
+
+        <b>↗</b>
+
+      </button>
+
+
+      <button class="action-tile">
+
+        <span class="action-symbol">▤</span>
+
+        <span>
+          <strong>Record scores</strong>
+          <small>Update student grades</small>
+        </span>
+
+        <b>↗</b>
+
+      </button>
+
+
+      <button class="action-tile">
+
+        <span class="action-symbol">✓</span>
+
+        <span>
+          <strong>Take attendance</strong>
+          <small>Mark today's attendance</small>
+        </span>
+
+        <b>↗</b>
+
+      </button>
+
+    </div>
+
+  </article>
+
+</section>
+
+
+<section class="subjects-section">
+
+  <div class="section-heading">
+
+    <div>
+      <p class="eyebrow">YOUR TEACHING LOAD</p>
+
+      <h2>
+        My subjects
+        <span class="count-badge">0 subjects</span>
+      </h2>
+    </div>
+
+    <a
+      class="text-button"
+      href="{% url 'subjects' %}"
+    >
+      See all subjects ↗
+    </a>
+
+  </div>
+
+
+  <div class="subject-grid">
+
+    <div class="empty-state">
+
+      <h3>No subjects yet</h3>
+
+      <p>
+        Add your first subject to start organizing your classes.
+      </p>
+
+      <a
+        href="{% url 'subjects' %}"
+        class="button button-dark"
+      >
+        Go to My Subjects
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="bottom-grid">
+
+  <article class="panel activity-panel">
+
+    <div class="panel-heading">
+
+      <div>
+        <p class="eyebrow">LATEST UPDATES</p>
+        <h2>Recent activity</h2>
+      </div>
+
+    </div>
+
+
+    <div class="empty-state">
+
+      <h3>No recent activity</h3>
+
+      <p>
+        Your activity will appear here as you use Teach Track.
+      </p>
+
+    </div>
+
+  </article>
+
+
+  <article class="panel reminders-panel">
+
+    <div class="panel-heading">
+
+      <div>
+        <p class="eyebrow">STAY ON TRACK</p>
+        <h2>Reminders</h2>
+      </div>
+
+      <span class="reminder-count">0</span>
+
+    </div>
+
+
+    <div class="empty-state">
+
+      <h3>No reminders</h3>
+
+      <p>
+        You're all caught up.
+      </p>
+
+    </div>
+
+  </article>
+
+</section>
+
+
+<footer class="footer">
+
+  <span>© 2026 TeachTrack</span>
+
+  <span>
+    Designed for better teaching <b>✦</b>
+  </span>
+
+  <span>
+    Academic management, simplified.
+  </span>
+
+</footer>
+
+{% endblock %}
